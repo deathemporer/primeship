@@ -1,0 +1,100 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100%;
+    height: 100%;
+}
+
+body{
+    background: rgb(219,243,250);
+    background: linear-gradient(128deg, rgba(219,243,250,1) 0%, rgba(146,223,243,1) 100%);
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#login{
+    
+}
+
+#reg{
+    
+}
+
+#body-wrapper{
+    width: 1100px;
+    height: 500px;
+    position: absolute;
+    margin-left: 220px;
+    margin-top: 120px;
+    display: flex;
+}
+
+
+#left-side{
+    background: rgba(255, 255, 255, 0.71);
+    width: 600px;
+    height: 500px;
+    position: relative;
+    margin: 0px;
+    border-radius: 10px 0 0 10px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.24);
+}
+
+#left-side img{
+    width: 200px;
+    height: 32px;
+    position: relative;
+    margin-left: 20px;
+    margin-top: 44px;
+}
+
+#left-side p{
+    font-size: 20px;
+    height: fit-content;
+    position: relative;
+    margin-left: 30px;
+    margin-top: 0px;
+    color: rgba(0,0,0,0.7);
+}
+
+#left-side button{
+    position: relative;
+    width: 450px;
+    height: 60px;
+    border: none;
+    background: rgba(203, 243, 254, 0.82);
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0px 7px 15px rgba(0,0,0,0.24);
+    font-size: large;
+}
+
+#login_btn{
+    margin-top: 80px;
+    margin-left: 75px;
+}
+
+#reg_btn{
+    margin-top: 60px;
+    margin-left: 75px;
+}
+
+#right-side{
+    background: rgba(203, 243, 254, 0.82);
+    width: 500px;
+    height: 500px;
+    position: relative;
+    border-radius: 0 10px 10px 0;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.24);
+    flex-grow: 1;
+}
+
+#right-side img{
+    position: relative;
+    width: 500px;
+    height: 500px;
+}
+
