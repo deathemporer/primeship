@@ -1,0 +1,27 @@
+CREATE TABLE Customer (
+    cust_id int NOT NULL AUTO_INCREMENT,
+    name varchar(255) NOT NULL,
+    email varchar(255),
+    pass varchar(255),
+    PRIMARY KEY (cust_id)
+);
+
+CREATE TABLE Business (
+    bsns_id int NOT NULL AUTO_INCREMENT,
+    name varchar(255) NOT NULL,
+    email varchar(255),
+    pass varchar(255),
+    PRIMARY KEY (bsns_id)
+);
+
+CREATE TABLE Product (
+    prod_id int NOT NULL AUTO_INCREMENT,
+    name varchar(255) NOT NULL,
+    MRP int,
+    brand varchar(255),
+    location varchar(255),
+    time_of_man timestamp,
+    bsns_id int,
+    PRIMARY KEY (prod_id),
+    FOREIGN KEY (bsns_id) REFERENCES Business(bsns_id)
+);

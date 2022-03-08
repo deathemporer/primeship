@@ -15,13 +15,6 @@ body{
     background-size: cover;
 }
 
-#login{
-    
-}
-
-#reg{
-    
-}
 
 #body-wrapper{
     width: 1100px;
@@ -60,7 +53,7 @@ body{
     color: rgba(0,0,0,0.7);
 }
 
-#left-side button{
+#left-side input{
     position: relative;
     width: 450px;
     height: 60px;
@@ -70,6 +63,7 @@ body{
     cursor: pointer;
     box-shadow: 0px 7px 15px rgba(0,0,0,0.24);
     font-size: large;
+    font-weight: bold;
 }
 
 #login_btn{

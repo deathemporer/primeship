@@ -13,8 +13,10 @@
         <div id="left-side">
             <img src="images/logo 1.png" alt="Logo">
             <p>Your products, protected by the power of BlockChain.</p>
-            <button id="login_btn">Returning user, <b>Login</b></button>
-            <button id="reg_btn">New User, <b>Register</b></button>
+            <form method="post">
+            <input type="submit" id="login_btn" value="Returning user, Login" name="login"></input>
+            <input type="submit" id="reg_btn" value="New User, Register" name="register"></input>
+            </form>
         </div>
         <div id="right-side">
             <img id="bg" src="images/bg1.png" alt="image">
@@ -22,3 +24,12 @@
     </div>
 </body>
 </html>
+
+<?php
+    if(isset($_POST['login'])) {
+        header("location:login.php");
+    }
+    if(isset($_POST['register'])) {
+        header("location:register.php");
+    }
+?>
