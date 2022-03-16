@@ -1,3 +1,15 @@
+<?php 
+    session_start();
+    if (isset($_SESSION['type'])) {
+        if($_SESSION['type']==1)
+            header("location:customer_home.php");
+        elseif($_SESSION['type']==2)
+            header("location:bsns_home.php");
+    }
+    session_destroy();
+    session_start();
+    ob_start(); 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -1,10 +1,10 @@
 <?php 
-    require 'functions/functions.php';
+    require 'functions/connect.php';
     session_start();
-    if (isset($_SESSION['user_id'])) {
-        if(//cust)
+    if (isset($_SESSION['type'])) {
+        if($_SESSION['type']==1)
             header("location:customer_home.php");
-        else
+        elseif($_SESSION['type']==2)
             header("location:bsns_home.php");
     }
     session_destroy();
@@ -33,7 +33,7 @@
             <input type="password" name="pass" id="pass" placeholder="Password" required><br>
             <label for="type" id="lab_type"></label><br>
             <select name="type" id="type" required>
-                <option value="0" selected>Select an option</option>
+                <option value="0" disabled default>Select an option</option>
                 <option value="1">Customer</option>
                 <option value="2">Business</option>
             </select><br>
@@ -72,26 +72,52 @@
     $conn = connect();
     if ($_SERVER['REQUEST_METHOD'] == 'POST') { // A form is posted
         // Login process
-            $useremail = $_POST['useremail'];
-            $userpass = $_POST['userpass'];
-            $query = mysqli_query($conn, "SELECT * FROM users WHERE user_email = '$useremail' AND user_password = '$userpass'");
-            if($query){
-                if(mysqli_num_rows($query) == 1) {
-                    $row = mysqli_fetch_assoc($query);
-                    $_SESSION['user_id'] = $row['user_id'];
-                    $_SESSION['user_name'] = $row['user_firstname'] . " " . $row['user_lastname'];
-                    setcookie("useremail", $useremail, time()+3600);
-                    setcookie("userpass", $userpass, time()+3600);
-                    header("location:home.php");
+            $useremail = $_POST['email'];
+            $userpass = $_POST['pass'];
+            $type = $_POST['type'];
+            if($type == 1)
+            {
+                $query = mysqli_query($conn, "SELECT * FROM customer WHERE email = '$useremail' AND pass = '$userpass'");
+                if($query){
+                    if(mysqli_num_rows($query) == 1) {
+                        $row = mysqli_fetch_assoc($query);
+                        $_SESSION['user_id'] = $row['cust_id'];
+                        $_SESSION['user_name'] = $row['name'];
+                        $_SESSION['type'] = 1;
+                        setcookie("useremail", $useremail, time()+3600);
+                        setcookie("userpass", $userpass, time()+3600);
+                        header("location:customer_home.php");
+                    }
+                    else {
+                        ?> <script>
+                            alert("Invalid Login Credentials.");
+                        </script> <?php
+                    }
+                } else{
+                    echo mysqli_error($conn);
                 }
-                else {
-                    ?> <script>
-                        document.getElementsByClassName("required")[0].innerHTML = "Invalid Login Credentials.";
-                        document.getElementsByClassName("required")[0].innerHTML = "Invalid Login Credentials.";
-                    </script> <?php
+            }
+            elseif($type == 2){
+                $query = mysqli_query($conn, "SELECT * FROM business WHERE email = '$useremail' AND pass = '$userpass'");
+                if($query){
+                    if(mysqli_num_rows($query) == 1) {
+                        $row = mysqli_fetch_assoc($query);
+                        $_SESSION['user_id'] = $row['bsns_id'];
+                        $_SESSION['user_name'] = $row['name'];
+                        $_SESSION['type'] = 2;
+                        setcookie("useremail", $useremail, time()+3600);
+                        setcookie("userpass", $userpass, time()+3600);
+                        header("location:bsns_home.php");
+                    }
+                    else {
+                        ?> <script>
+                            alert("Invalid Login Credentials.");
+                            //document.getElementsByClassName("required")[0].innerHTML = "Invalid Login Credentials.";
+                        </script> <?php
+                    }
+                } else{
+                    echo mysqli_error($conn);
                 }
-            } else{
-                echo mysqli_error($conn);
             }
     }
 ?>

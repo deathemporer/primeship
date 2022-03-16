@@ -1,3 +1,19 @@
+<?php 
+    require 'functions/connect.php';
+    //require 'functions/logout.php';
+    session_start();
+    // Check whether user is logged on or not
+    if (!isset($_SESSION['user_id'])) {
+        header("location:index.php");
+    }
+    $temp = $_SESSION['user_id'];
+    session_destroy();
+    session_start();
+    $_SESSION['user_id'] = $temp;
+    ob_start(); 
+    // Establish Database Connection
+    $conn = connect();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,21 +28,24 @@
 <body>
     <div id="navbar">
         <nav class="navbar navbar-expand-lg navbar-dark shadow-5-strong">
-            <a class="navbar-brand" href="#" style="width: 200px;"><img src="images/logo 1.png" alt="logo"></a>
+            <a class="navbar-brand" href="customer_home.php" style="width: 200px;"><img src="images/logo 1.png" alt="logo"></a>
             
             <div class="collapse navbar-collapse" id="navbarNavDropdown" style="margin-left: 500px;">
               <ul class="navbar-nav">
                 <li class="nav-item active" style="width: 200px;">
-                  <a class="nav-link" href="#" style="color: black; font-weight: bold; width: fit-content;">Scan Product<span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="customer_home.php" style="color: black; font-weight: bold; width: fit-content;">Scan Product<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item" style="width: 180px;">
-                  <a class="nav-link" href="#" style="color: black; width: fit-content;">About</a>
+                  <a class="nav-link" href="customer_about.php" style="color: black; width: fit-content;">About</a>
                 </li>
                 <li class="nav-item" style="width: 200px;">
                     <a class="nav-link" href="#" style="color: black; width: fit-content;">My Account</a>
                   </li>
                   <li class="nav-item" style="width: 100px;">
-                    <a class="nav-link" href="#" style="color: red; width: fit-content;">Logout</a>
+                    <form method=post action="logout.php">
+                        <input type="submit" name="Logout" value="Logout"></input>
+                    </form>
+                    
                   </li>
               </ul>
             </div>
