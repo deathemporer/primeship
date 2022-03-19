@@ -1,3 +1,20 @@
+<?php 
+    require 'functions/connect.php';
+    //require 'functions/logout.php';
+    session_start();
+    // Check whether user is logged on or not
+    if (!isset($_SESSION['user_id'])) {
+        header("location:index.php");
+    }
+    $temp = $_SESSION['user_id'];
+    session_destroy();
+    session_start();
+    $_SESSION['user_id'] = $temp;
+    ob_start(); 
+    // Establish Database Connection
+    $conn = connect();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,24 +29,26 @@
 <body>
     <div id="navbar">
         <nav class="navbar navbar-expand-lg navbar-dark shadow-5-strong">
-            <a class="navbar-brand" href="#" style="width: 150px;"><img src="images/logo 1.png" alt="logo"></a>
+            <a class="navbar-brand" href="bsns_home.php" style="width: 150px;"><img src="images/logo 1.png" alt="logo"></a>
             
             <div class="collapse navbar-collapse" id="navbarNavDropdown" style="margin-left: 500px;">
               <ul class="navbar-nav">
                 <li class="nav-item active" style="width: 200px;">
-                  <a class="nav-link" href="#" style="color: black; font-weight: bold; width: fit-content;">Add Product<span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="bsns_home.php" style="color: black; font-weight: bold; width: fit-content;">Add Product<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item" style="width: 180px;">
-                  <a class="nav-link" href="#" style="color: black; width: fit-content;">Check Serial</a>
+                  <a class="nav-link" href="bsns_check.php" style="color: black; width: fit-content;">Check Serial</a>
                 </li>
                 <li class="nav-item" style="width: 180px;">
                   <a class="nav-link" href="#" style="color: black; width: fit-content;">Send Shipment</a>
                 </li>
                 <li class="nav-item" style="width: 200px;">
-                    <a class="nav-link" href="#" style="color: black; width: fit-content;">My Account</a>
+                    <a class="nav-link" href="bsns_account.php" style="color: black; width: fit-content;">My Account</a>
                   </li>
-                  <li class="nav-item" style="width: 100px;">
-                    <a class="nav-link" href="#" style="color: red; width: fit-content;">Logout</a>
+                  <<li class="nav-item" style="width: 100px;">
+                    <form method=post action="logout.php">
+                      <input type="submit" name="Logout" value="Logout" style="border: none; background-color: transparent; color: red; cursor: pointer;"></input>
+                    </form>
                   </li>
               </ul>
             </div>

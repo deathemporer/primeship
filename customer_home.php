@@ -39,13 +39,12 @@
                   <a class="nav-link" href="customer_about.php" style="color: black; width: fit-content;">About</a>
                 </li>
                 <li class="nav-item" style="width: 200px;">
-                    <a class="nav-link" href="#" style="color: black; width: fit-content;">My Account</a>
+                    <a class="nav-link" href="customer_account.php" style="color: black; width: fit-content;">My Account</a>
                   </li>
                   <li class="nav-item" style="width: 100px;">
                     <form method=post action="logout.php">
-                        <input type="submit" name="Logout" value="Logout"></input>
+                      <input type="submit" name="Logout" value="Logout" style="border: none; background-color: transparent; color: red; cursor: pointer;"></input>
                     </form>
-                    
                   </li>
               </ul>
             </div>
