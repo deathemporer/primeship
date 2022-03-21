@@ -25,3 +25,5 @@ CREATE TABLE Product (
     PRIMARY KEY (prod_id),
     FOREIGN KEY (bsns_id) REFERENCES Business(bsns_id)
 );
+
+add extra id for sent to for each shipment

@@ -56,12 +56,41 @@
     </div>
     <div id="wrap">
         <p>Add new product to the database.</p>
-        <form action="" method="get" id="add_product">
-            <input type="text" placeholder="Product Name" id="pname"><br>
+        <form action="" method="post" id="add_product">
+            <input type="text" name="pname" placeholder="Product Name" id="pname"><br>
             <input type="submit" name="Submit" id="sub" style="width: 250px;  background: #00ab66; color: white; text-align: center; cursor: pointer;">
         </form>
     </p>
     </div>
-
 </body>
 </html>
+
+<?php
+    $conn = connect();
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $name = $_POST['pname'];
+        $brandId = $_SESSION['user_id'];
+        // Check for Some Unique Constraints
+            $query = mysqli_query($conn, "SELECT productName FROM product WHERE pname="$name" and brandId="$brandId"");
+            if(mysqli_num_rows($query) > 0){
+                $row = mysqli_fetch_assoc($query);
+                if($name == $row['productName']){
+                    ?> <script>
+                    alert("This product already exists.");
+                    </script> <?php
+                }
+            }
+            // Insert Data
+            $sql = "INSERT INTO product(productName, brandId)
+                    VALUES ('$name', '$brandId')";
+            $query = mysqli_query($conn, $sql);
+            if($query){
+                $query = mysqli_query($conn, "SELECT bsns_id FROM business WHERE email = '$_SESSION['email']'");
+                $row = mysqli_fetch_assoc($query);
+                $_SESSION['user_id'] = $row['bsns_id'];
+                $_SESSION['user_name'] = $row['name'];
+                $_SESSION['type'] = 2;
+                header("location:bsns_home.php");
+            }
+    }
+?>
