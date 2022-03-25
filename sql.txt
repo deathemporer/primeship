@@ -17,13 +17,20 @@ CREATE TABLE Business (
 CREATE TABLE Product (
     prod_id int NOT NULL AUTO_INCREMENT,
     name varchar(255) NOT NULL,
-    MRP int,
-    brand varchar(255),
-    location varchar(255),
-    time_of_man timestamp,
     bsns_id int,
     PRIMARY KEY (prod_id),
     FOREIGN KEY (bsns_id) REFERENCES Business(bsns_id)
 );
 
-add extra id for sent to for each shipment
+CREATE TABLE Transaction (
+    txn_id int NOT NULL AUTO_INCREMENT,
+    MRP int,
+    location varchar(255),
+    sent_to varchar(255),
+    time_of_man timestamp,
+    bsns_id int,
+    prod_id int,
+    PRIMARY KEY (txn_id),
+    FOREIGN KEY (bsns_id) REFERENCES Business(bsns_id),
+    FOREIGN KEY (prod_id) REFERENCES Product(prod_id)
+);

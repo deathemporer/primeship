@@ -71,7 +71,7 @@
         $name = $_POST['pname'];
         $brandId = $_SESSION['user_id'];
         // Check for Some Unique Constraints
-            $query = mysqli_query($conn, "SELECT productName FROM product WHERE pname="$name" and brandId="$brandId"");
+            $query = mysqli_query($conn, "SELECT productName FROM product WHERE pname='$name' and brandId='$brandId'");
             if(mysqli_num_rows($query) > 0){
                 $row = mysqli_fetch_assoc($query);
                 if($name == $row['productName']){
