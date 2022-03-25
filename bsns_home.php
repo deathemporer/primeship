@@ -70,27 +70,28 @@
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $name = $_POST['pname'];
         $brandId = $_SESSION['user_id'];
+        $email = $_SESSION['email'];
         // Check for Some Unique Constraints
-            $query = mysqli_query($conn, "SELECT productName FROM product WHERE pname='$name' and brandId='$brandId'");
+            $query = mysqli_query($conn, "SELECT name FROM product WHERE name='$name' and bsns_id='$brandId'");
             if(mysqli_num_rows($query) > 0){
                 $row = mysqli_fetch_assoc($query);
-                if($name == $row['productName']){
+                if($name == $row['name']){
                     ?> <script>
                     alert("This product already exists.");
                     </script> <?php
                 }
             }
             // Insert Data
-            $sql = "INSERT INTO product(productName, brandId)
+            $sql = "INSERT INTO product(name, bsns_id)
                     VALUES ('$name', '$brandId')";
             $query = mysqli_query($conn, $sql);
-            if($query){
-                $query = mysqli_query($conn, "SELECT bsns_id FROM business WHERE email = '$_SESSION['email']'");
-                $row = mysqli_fetch_assoc($query);
-                $_SESSION['user_id'] = $row['bsns_id'];
-                $_SESSION['user_name'] = $row['name'];
-                $_SESSION['type'] = 2;
+            if(!$query){
+            	?><script>
+                alert("Product added");
+                </script><?php
                 header("location:bsns_home.php");
             }
     }
 ?>
+
+<
