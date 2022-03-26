@@ -55,10 +55,17 @@
     </div>
     <div id="wrap_bus">
         <form method="post" id="login">
-            <label for="email" id="lab_mail">Email:</label>
-            <input type="email" name="email" id="email" placeholder="abc@xyz.com" required><br>
-            <label for="name">Business Name:</label>
-            <input type="text" name="name" id="name" placeholder="ABCD" required><br>
+        <?php 
+            $sql = "SELECT * from business where bsns_id=\"".$_SESSION['user_id']."\";";
+            $conn = connect();
+            $query = mysqli_query($conn, $sql);
+            
+            $row = mysqli_fetch_assoc($query);
+            echo "<label for=\"email\" id=\"lab_mail\">Email:</label>";
+            echo "<input type=\"email\" name=\"email\" id=\"email\" placeholder=\"".$row['email']."\" required><br>";  
+            echo "<label for=\"name\">Name:</label>";
+            echo "<input type=\"text\" name=\"name\" id=\"name\" placeholder=\"".$row['name']."\" required><br>";
+        ?>
             <label for="type" id="lab_type">Account Type:</label>
             <input type="text" name="type" id="type" placeholder="Business" required><br>
         </form>

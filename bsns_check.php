@@ -56,11 +56,35 @@
     </div>
     <div id="wrap">
         <p>Check Serial Number of added products for details.</p>
-        <form action="" method="get" id="check_product">
-            <input type="text" placeholder="Serial Number..." id="sno"><br>
+        <form action="" method="post" id="check_product">
+            <input type="text" placeholder="Product Name..." id="sno" name="sno"><br>
             <input type="submit" name="Submit" id="sub" style="width: 250px;  background: #00ab66; color: white; text-align: center; cursor: pointer;">
         </form>
-    </p>
+        <?php 
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $prod_name = $_POST['sno'];
+            $prod_bsns = $_SESSION['user_id'];
+            $sql = "SELECT * from product where name=\"".$prod_name."\" and bsns_id=\"".$prod_bsns."\";";
+            $conn = connect();
+            $query = mysqli_query($conn, $sql);
+            
+            $row = mysqli_fetch_assoc($query);
+            if(mysqli_num_rows($query) > 0){
+              ?>
+              <script>
+                alert("Product exists.\nProduct Name: <?php echo $row['name'] ?>\nProduct ID: <?php echo $row['prod_id'] ?>"); 
+              </script>
+              <?php
+            }
+            else{
+              ?>
+              <script>
+                alert("Product does not exist.");
+              </script>
+              <?php
+            }
+        }
+        ?>
     </div>
 
 </body>

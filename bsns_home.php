@@ -81,17 +81,16 @@
                     </script> <?php
                 }
             }
+
             // Insert Data
             $sql = "INSERT INTO product(name, bsns_id)
                     VALUES ('$name', '$brandId')";
             $query = mysqli_query($conn, $sql);
-            if(!$query){
+            if($query){
             	?><script>
                 alert("Product added");
                 </script><?php
-                header("location:bsns_home.php");
             }
+            header("location:bsns_home.php");
     }
 ?>
-
-<
