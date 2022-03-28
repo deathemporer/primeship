@@ -6,14 +6,15 @@ contract primeShip{
     struct Product{
         address creator;
         string productName;
-        string productBrand,
-        string sentTo,
+        string productBrand;
+        string sentTo;
         uint256 productId;
         string date;
         string location;
     }
 
     mapping(uint => Product) allProducts;
+    mapping(uint => address) brands;
     uint256 items = 0;
 
     function concat(string memory _a, string memory _b) public pure returns (string memory){
@@ -27,11 +28,26 @@ contract primeShip{
         return string(bytes_c);
     }
 
-    function newItem(string memory _name, uint _id, string memory _date, string memory _brand, string memory _to, string memory _location) public returns(bool){
-        Product memory curItem = Product({creator: msg.sender, productName: _name, productBrand: _brand, sentTo: _to, productId: _id, date: _date, location: _location});
-        allProducts[items] = curItem;
+    function newItem(string memory _name, uint _id, string memory _brand) public returns(bool){
+        Product memory curItem = Product({creator: msg.sender, productName: _name, productBrand: _brand, sentTo: "", productId: _id, date: "", location: ""});
+        //Product memory curItem = Product({creator: msg.sender, productName: _name, productBrand: _brand, productId: _id});
+        allProducts[_id] = curItem;
+        brands[_id] = msg.sender;
         items = items + 1;
         return true;
+    }
+
+    function addDetails(uint _id, string memory _date, string memory _to, string memory _location) public onlyBrand(_id) returns(bool){
+        //Product memory curItem = Product({creator: msg.sender, productName: _name, productBrand: _brand, sentTo: _to, productId: _id, date: _date, location: _location});
+        allProducts[_id].sentTo = _to;
+        allProducts[_id].date = _date;
+        allProducts[_id].location = _location;
+        return true;
+    }
+
+    modifier onlyBrand(uint _id ) {
+        require (msg.sender == brands[_id]);
+        _;
     }
 
     function getItems(uint _id) public view returns(string memory){

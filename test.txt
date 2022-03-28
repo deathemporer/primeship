@@ -1,0 +1,2 @@
+1. accounts
+2. only product owner can add details
