@@ -7,8 +7,8 @@
         <div class="formitem">
             <label type="text" class="formlabel"> Upload QR Code </label>
             <input type="text" class="forminput" id="prodid" onkeypress="isInputNumber(event)" required>
-            <label class=qrcode-text-btn style="width:4%;display:none;">
-                <input type=file accept="image/*" id="selectedFile" style="display:none" capture=environment onchange="openQRCamera(this);" tabindex=-1>
+            <label class=qrcode-text-btn style="width:4%;">
+                <input type=file accept="image/*" id="selectedFile" capture=environment onchange="openQRCamera(this);" tabindex=-1>
             </label>
             <button class="qrbutton2" onclick="document.getElementById('selectedFile').click();" style="margin-bottom: 5px;margin-top: 5px;">
             <i class='fa fa-qrcode'></i> Scan QR

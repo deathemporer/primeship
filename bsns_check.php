@@ -147,7 +147,7 @@
                   <a class="nav-link" href="bsns_check.php" style="color: black; font-weight: bold; width: fit-content;">Check Serial</a>
                 </li>
                 <li class="nav-item" style="width: 180px;">
-                  <a class="nav-link" href="#" style="color: black; width: fit-content;">Send Shipment</a>
+                  <a class="nav-link" href="bsns_send.php" style="color: black; width: fit-content;">Send Shipment</a>
                 </li>
                 <li class="nav-item" style="width: 200px;">
                     <a class="nav-link" href="bsns_account.php" style="color: black; width: fit-content;">My Account</a>

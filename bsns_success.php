@@ -14,6 +14,7 @@
     // Establish Database Connection
     $conn = connect();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,24 +23,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PrimeShip</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="css/cust_home.css">
+    <link rel="stylesheet" href="css/bsns_success.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
     <div id="navbar">
         <nav class="navbar navbar-expand-lg navbar-dark shadow-5-strong">
-            <a class="navbar-brand" href="customer_home.php" style="width: 200px;"><img src="images/logo 1.png" alt="logo"></a>
+            <a class="navbar-brand" href="bsns_home.php" style="width: 150px;"><img src="images/logo 1.png" alt="logo"></a>
             
             <div class="collapse navbar-collapse" id="navbarNavDropdown" style="margin-left: 500px;">
               <ul class="navbar-nav">
                 <li class="nav-item active" style="width: 200px;">
-                  <a class="nav-link" href="customer_home.php" style="color: black; font-weight: bold; width: fit-content;">Scan Product<span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="bsns_home.php" style="color: black; width: fit-content;">Add Product<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item" style="width: 180px;">
-                  <a class="nav-link" href="customer_about.php" style="color: black; width: fit-content;">About</a>
+                  <a class="nav-link" href="bsns_check.php" style="color: black; width: fit-content;">Check Serial</a>
+                </li>
+                <li class="nav-item" style="width: 180px;">
+                  <a class="nav-link" href="bsns_send.php" style="color: black; width: fit-content; font-weight: bold; ">Send Shipment</a>
                 </li>
                 <li class="nav-item" style="width: 200px;">
-                    <a class="nav-link" href="customer_account.php" style="color: black; width: fit-content;">My Account</a>
+                    <a class="nav-link" href="bsns_account.php" style="color: black; width: fit-content;">My Account</a>
                   </li>
                   <li class="nav-item" style="width: 100px;">
                     <form method=post action="logout.php">
@@ -51,18 +55,22 @@
         </nav>
     </div>
     <div id="wrap">
-        <p>Scan a product to check the geuineness. Either scan or upload the QR Code.</p>
-
-        <form action="" method="get" id="sno_form">
-            <button id="file" style="height: 40px;width: 250px;  background: rgba(203, 243, 254, 0.82); color: black; text-align: center; cursor: pointer; border-radius: 5px; border:none; font-size: large; padding-top: 7px;  box-shadow: 0px 3px 15px rgba(0,0,0,0.24);">
-            <label for="txn" id="l_txn">Upload a File</label>
-            </button>
-            <input name="txn" type="file" placeholder="Upload QR Code" id="txn" style="display: none;"><br>
-            <input type="submit" name="Submit" id="sub" style="width: 250px;  background: #00ab66; color: white; text-align: center; cursor: pointer;">
-        </form>
-        <br><p>--OR--</p><br>
-        <button id="but">Scan from Camera</button>
+        <p style="color: green;">Successfully created a Shipment!</p>
+        <p style="font-size: 15px;">Save the QR Code by right-clicking and save image as...</p>
+        <canvas id="qr"></canvas><br><br>
+        <button style="width: 250px;  background: #00ab66; color: white; text-align: center; cursor: pointer; border-radius: 5px;"><a style="color: white; text-decoration: none;" href="bsns_home.php">Done</a></button>
     </div>
 </body>
 </html>
+<script src="node_modules\qrious\dist\qrious.js"></script>
+    <script>
+      (function() {
+        var txn_id = <?php echo(json_encode($_GET['txn_id'])); ?>;
+        var qr = new QRious({
+          element: document.getElementById('qr'),
+          value: txn_id
+        });
+      })();
+    </script>
+
 
