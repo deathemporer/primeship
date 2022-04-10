@@ -7,19 +7,13 @@ contract primeShip{
         address creator;
         string productName;
         string productBrand;
-        uint256 productId;
-    }
-
-    struct Transaction{
-        uint256 productId;
-        string txn_id;
         string sentTo;
-        string location;
+        uint256 productId;
         string date;
+        string location;
     }
 
     mapping(uint => Product) allProducts;
-    mapping(string => Transaction) allTransactions;
     mapping(uint => address) brands;
     uint256 items = 0;
 
@@ -35,7 +29,7 @@ contract primeShip{
     }
 
     function newItem(string memory _name, uint _id, string memory _brand) public returns(bool){
-        Product memory curItem = Product({creator: msg.sender, productName: _name, productBrand: _brand, productId: _id});
+        Product memory curItem = Product({creator: msg.sender, productName: _name, productBrand: _brand, sentTo: "", productId: _id, date: "", location: ""});
         //Product memory curItem = Product({creator: msg.sender, productName: _name, productBrand: _brand, productId: _id});
         allProducts[_id] = curItem;
         brands[_id] = msg.sender;
@@ -43,10 +37,11 @@ contract primeShip{
         return true;
     }
 
-    function addDetails(uint _id, string memory _txn_id, string memory _date, string memory _to, string memory _location) public onlyBrand(_id) returns(bool){
+    function addDetails(uint _id, string memory _date, string memory _to, string memory _location) public onlyBrand(_id) returns(bool){
         //Product memory curItem = Product({creator: msg.sender, productName: _name, productBrand: _brand, sentTo: _to, productId: _id, date: _date, location: _location});
-        Transaction memory curItem = Transaction({productId: _id, txn_id: _txn_id, date: _date, location: _location, sentTo: _to});
-        allTransactions[_txn_id] = curItem;
+        allProducts[_id].sentTo = _to;
+        allProducts[_id].date = _date;
+        allProducts[_id].location = _location;
         return true;
     }
 
@@ -55,17 +50,18 @@ contract primeShip{
         _;
     }
 
-    function getItems(string memory _txn_id) public view returns(string memory){
+    function getItems(uint _id) public view returns(string memory){
         string memory output="Product Name: ";
-        output=concat(output, allProducts[allTransactions[_txn_id].productId].productName);
-        output=concat(output, ", Brand: "); 
-        output=concat(output, allProducts[allTransactions[_txn_id].productId].productBrand);
+        output=concat(output, allProducts[_id].productName);
+        output=concat(output, ", Brand: ");
+        output=concat(output, allProducts[_id].productBrand);
         output=concat(output, ", Sent to: ");
-        output=concat(output, allTransactions[_txn_id].sentTo);
+        output=concat(output, allProducts[_id].sentTo);
         output=concat(output, ", Manufacture Date: ");
-        output=concat(output, allTransactions[_txn_id].date);
+        output=concat(output, allProducts[_id].date);
         output=concat(output, ", Manufacture Location: ");
-        output=concat(output, allTransactions[_txn_id].location);
+        output=concat(output, allProducts[_id].location);
         return output;
     }
+
 }
