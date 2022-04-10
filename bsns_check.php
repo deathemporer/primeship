@@ -80,7 +80,7 @@
                 margin-top: 20px;
             }
 
-            #sno, #sub{
+            #sno, #sub, #btn{
                 margin: 10px;
                 width: 450px;
                 height: 40px;
@@ -112,13 +112,14 @@
                 padding: 8px;
             }
               
-            #t1{
-                width: 20%;
+            #t1, #t4{
+                width: 15%;
             }
 
             #t2,#t3{
-                width: 40%;
+                width: 35%;
             }
+
 
             #prod tr:nth-child(even){background-color: rgba(219,243,250,0);}
               
@@ -131,6 +132,21 @@
                 background-color: rgba(203, 243, 254, 0.82);
                 color: black;
             }
+
+            #btn{
+            	width: 100px;
+            	background: #00ab66; 
+            	color: white; 
+            	text-align: center; 
+            	cursor: pointer;
+            	padding-left: 0px;
+            	margin: 0px;
+            }
+            #alink{
+            	text-decoration: none;
+            	color: white;
+            }
+
     </style>
 </head>
 <body>
@@ -147,7 +163,7 @@
                   <a class="nav-link" href="bsns_check.php" style="color: black; font-weight: bold; width: fit-content;">Check Serial</a>
                 </li>
                 <li class="nav-item" style="width: 180px;">
-                  <a class="nav-link" href="bsns_send.php" style="color: black; width: fit-content;">Send Shipment</a>
+                  <a class="nav-link" href="#" style="color: black; width: fit-content;">Send Shipment</a>
                 </li>
                 <li class="nav-item" style="width: 200px;">
                     <a class="nav-link" href="bsns_account.php" style="color: black; width: fit-content;">My Account</a>
@@ -162,29 +178,38 @@
         </nav>
     </div>
     <div id="wrap">
-        <form action="" method="get" id="check_product">
-            <input type="text" placeholder="Product Name..." id="sno" name="sno">
+        <form action="" method="post" id="check_product">
+            <input type="text" placeholder="Product Name..." id="sno" name="sno" value = "<?php echo (isset($_GET['prod_name']))?$_GET['prod_name']:'';?>">
             <input type="submit" name="Submit" id="sub" style="width: 250px;  background: #00ab66; color: white; text-align: center; cursor: pointer;">
             <table id="prod" name="prod">
               <th id="t1">Product ID</th>
               <th id="t2">Name</th>
               <th id="t3">Brand</th>
+              <th id="t4"></th>
               <?php 
                       $prod_bsns = $_SESSION['user_id'];
+                      if(isset($_GET['prod_name'])){
+                      	$sql = "SELECT * from product where name=\"".$_GET['prod_name']."\" and bsns_id=\"".$prod_bsns."\";";
+                      }
+                      else{
+                      	$sql = "SELECT * from product where bsns_id=\"".$prod_bsns."\";";
+                      }
                       $sql2 = "SELECT name from business where bsns_id=\"".$prod_bsns."\";";
-                      $sql = "SELECT * from product where bsns_id=\"".$prod_bsns."\";";
+                      
                       $conn = connect();
                       $query = mysqli_query($conn, $sql);
                       $query2 = mysqli_query($conn, $sql2);
-                      $row = mysqli_fetch_assoc($query);
+                      //$row = mysqli_fetch_assoc($query);
                       $row2 = mysqli_fetch_assoc($query2);
                       $bsns_name = $row2['name'];
                       if(mysqli_num_rows($query) > 0){
                         while($row = mysqli_fetch_assoc($query)){
                             echo '<tr>';
-                            echo "<td id='t1'>".$row['prod_id']."</td>";
-                            echo "<td id='t2'>".$row['name']."</td>";
-                            echo "<td id='t3'>".$bsns_name."</td>";
+                            echo "<td id='t1'><b>".$row['prod_id']."</b></td>";
+                            echo "<td id='t2'>".ucfirst($row['name'])."</td>";
+                            echo "<td id='t3'>".ucfirst($bsns_name)."</td>";
+                            echo "<td id='t4'><button id='btn' value='".$row['prod_id']."'><a id='alink' href='bsns_send.php?prod_id=".$row['prod_id']."'>Send</a></button></td>";
+                            echo "</tr>";
                         }
                       }
                       else{
@@ -201,4 +226,10 @@
     </div>
 
 </body>
+<?php
+	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		$prod_name = $_POST['sno'];
+		header("location:bsns_check.php?prod_name=$prod_name");
+	}
+?>
 </html>

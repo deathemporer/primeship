@@ -58,7 +58,7 @@
         <p style="color: green;">Successfully created a Shipment!</p>
         <p style="font-size: 15px;">Save the QR Code by right-clicking and save image as...</p>
         <canvas id="qr"></canvas><br><br>
-        <button style="width: 250px;  background: #00ab66; color: white; text-align: center; cursor: pointer; border-radius: 5px;"><a style="color: white; text-decoration: none;" href="bsns_home.php">Done</a></button>
+        <a style="color: white; text-decoration: none;" href="bsns_home.php"><button style="width: 250px;  background: #00ab66; color: white; text-align: center; cursor: pointer; border-radius: 5px;">Done</button></a>
     </div>
 </body>
 </html>

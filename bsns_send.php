@@ -57,7 +57,7 @@
     <div id="wrap">
         <p>Send new shipment</p>
         <form action="" method="post" id="send">
-            <input type="text" name="pid" placeholder="Product ID" id="pid"><br>
+            <input type="text" name="pid" placeholder="Product ID" id="pid" value = "<?php echo (isset($_GET['prod_id']))?$_GET['prod_id']:'';?>"><br>
             <input type="text" name="mrp" placeholder="MRP" id="mrp"><br>
             <input type="text" name="loc" placeholder="Manufacturing Location" id="loc"><br>
             <input type="date" name="date" placeholder="Date of Manufacturing" id="date"><br>
@@ -98,8 +98,7 @@
               </script>
               <?php
               $txn_id = "T" . $pid . $brandId . substr($loc,0,2) . substr($sent,0,2) . substr($date,8,10) . substr($date,5,7);
-              $sql = "INSERT INTO `transaction`(`MRP`, `location`, `sent_to`, `time_of_man`, `bsns_id`, `prod_id`) 
-                      VALUES ('$mrp','$loc','$sent','$date','$brandId','$pid')";
+              $sql = "INSERT INTO `transaction`(`txn_id`, `MRP`, `location`, `sent_to`, `time_of_man`, `bsns_id`, `prod_id`) VALUES ('$txn_id','$mrp','$loc','$sent','$date','$brandId','$pid')";
               $query = mysqli_query($conn, $sql);
               if($query){
                 ?>
