@@ -24,6 +24,70 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="css/cust_home.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+      #file, #l_txn, #sub, #but,#lblFile{
+          margin: 10px;
+          width: 450px;
+          height: 40px;
+          padding-left: 10px;
+          border: none;
+          background: rgba(203, 243, 254, 0.82);
+          color: black;
+          border-radius: 10px;
+          box-shadow: 0px 3px 15px rgba(0,0,0,0.24);
+          font-size: large;
+      }
+
+      #selectedFile{
+        display: none;
+      }
+
+      #lblFile{
+        width: 130px;  
+        background: rgba(117, 225, 255, 0.8); 
+        color: black; 
+        text-align: center; 
+        cursor: pointer;
+        padding-left: 0;
+        margin-top: 0;
+        height: fit-content;
+      }
+
+      #l_txn{
+          margin-top: 10px;
+          display: none;
+      }
+
+      #txn{
+          display:none;
+      }
+
+      #but{
+          width: 300px;
+          cursor: pointer;
+      }
+
+      #sno_form{
+          margin-top: 50px;
+          height: fit-content;
+      }
+
+      #prodid{
+        margin: 10px; 
+        width: 300px; 
+        height: 40px; 
+        padding-left: 10px; 
+        border: none; 
+        background: rgba(203, 243, 254, 0.82); 
+        color: black; 
+        border-radius: 10px; 
+        box-shadow: 0px 3px 15px rgba(0,0,0,0.24); 
+        font-size: large; 
+      }
+
+
+    </style>
+    <script src="https://rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js"></script>
 </head>
 <body>
     <div id="navbar">
@@ -51,18 +115,56 @@
         </nav>
     </div>
     <div id="wrap">
-        <p>Scan a product to check the geuineness. Either scan or upload the QR Code.</p>
+        <p>Scan a product to check the geuineness. Either scan or upload the QR Code.</p><br>
 
-        <form action="" method="get" id="sno_form">
-            <button id="file" style="height: 40px;width: 250px;  background: rgba(203, 243, 254, 0.82); color: black; text-align: center; cursor: pointer; border-radius: 5px; border:none; font-size: large; padding-top: 7px;  box-shadow: 0px 3px 15px rgba(0,0,0,0.24);">
-            <label for="txn" id="l_txn">Upload a File</label>
-            </button>
-            <input name="txn" type="file" placeholder="Upload QR Code" id="txn" style="display: none;"><br>
+        <form id="form2" autocomplete="off" style="height: fit-content" method="post">
+        <div class="formitem" style="height: fit-content">
+            <input type="text" placeholder="Upload QR Code" class="forminput" id="prodid" onkeypress="isInputNumber(event)" required style="">
+            <label class=qrcode-text-btn id="lblFile">Upload a File
+                <input type=file accept="image/*" id="selectedFile" capture=environment onchange="openQRCamera(this);" tabindex=-1 style="height: fit-content" style="width: 100px">
+            </label><br>
             <input type="submit" name="Submit" id="sub" style="width: 250px;  background: #00ab66; color: white; text-align: center; cursor: pointer;">
-        </form>
+            
+        </div>
+    </form>
+    
         <br><p>--OR--</p><br>
-        <button id="but">Scan from Camera</button>
+        <a href="cust_scan.php"><button id="but">Scan from Camera</button></a>
     </div>
 </body>
 </html>
 
+<script>
+document.getElementById("prodid").onchange = function() {myFunction()};
+
+function myFunction() {
+  var x = document.getElementById("prodid");
+  alert(x.value);
+}
+</script>
+
+<?php
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $txn_id=$_POST['prodid'];
+        header("location:cust_result.php?txn_id=$txn_id");
+    }
+?>
+
+ <script>
+        function openQRCamera(node) {
+        var reader = new FileReader();
+        reader.onload = function() {
+        node.value = "";
+        qrcode.callback = function(res) {
+        if(res instanceof Error) {
+            alert("No QR code found. Please make sure the QR code is within the camera's frame and try again.");
+        } else {
+            node.parentNode.previousElementSibling.value = res;
+            document.getElementById('searchButton').click();
+          }
+          };
+          qrcode.decode(reader.result);
+        };
+        reader.readAsDataURL(node.files[0]);
+    }
+</script>
