@@ -72,7 +72,7 @@
           height: fit-content;
       }
 
-      #prodid{
+      #text{
         margin: 10px; 
         width: 300px; 
         height: 40px; 
@@ -117,11 +117,12 @@
     <div id="wrap">
         <p>Scan a product to check the geuineness. Either scan or upload the QR Code.</p><br>
 
-        <form id="form2" autocomplete="off" style="height: fit-content" method="post">
+
+        <form id="form2" style="height: fit-content" method="post">
         <div class="formitem" style="height: fit-content">
-            <input type="text" placeholder="Upload QR Code" class="forminput" id="prodid" onkeypress="isInputNumber(event)" required style="">
+            <input type="text" placeholder="Upload QR Code" class="forminput" id="text" name="text" required>
             <label class=qrcode-text-btn id="lblFile">Upload a File
-                <input type=file accept="image/*" id="selectedFile" capture=environment onchange="openQRCamera(this);" tabindex=-1 style="height: fit-content" style="width: 100px">
+                <input type=file accept="image/*" id="selectedFile" style="height: fit-content" style="width: 100px">
             </label><br>
             <input type="submit" name="Submit" id="sub" style="width: 250px;  background: #00ab66; color: white; text-align: center; cursor: pointer;">
             
@@ -134,21 +135,43 @@
 </body>
 </html>
 
-<script>
-document.getElementById("prodid").onchange = function() {myFunction()};
+<script type="module">
+    import QrScanner from "../Code/node_modules/qr-scanner/qr-scanner.min.js";
+    const fileSelector = document.getElementById('selectedFile');
+    const fileQrResult = document.getElementById('text');
 
-function myFunction() {
-  var x = document.getElementById("prodid");
-  alert(x.value);
-}
+    function setResult(label, result) {
+    	  label.value = result.data;
+        console.log(result.data);
+        label.textContent = result.data;
+        label.style.color = 'teal';
+        clearTimeout(label.highlightTimeout);
+        label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
+    }
+
+    
+    fileSelector.addEventListener('change', event => {
+        const file = fileSelector.files[0];
+        if (!file) {
+            return;
+        }
+        QrScanner.scanImage(file, { returnDetailedScanResult: true })
+            .then(result => setResult(fileQrResult, result))
+            .catch(e => setResult(fileQrResult, { data: e || 'No QR code found.' }));
+    });
 </script>
 
-<?php
+
+    <?php
+    $conn = connect();
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $txn_id=$_POST['prodid'];
-        header("location:cust_result.php?txn_id=$txn_id");
+      $txn_id = $_POST['text'];
+      header("location:cust_result.php?txn_id=$txn_id");
     }
-?>
+    ?>
+
+
+
 
  <script>
         function openQRCamera(node) {

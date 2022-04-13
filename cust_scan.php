@@ -117,6 +117,7 @@
     });
 </script>
 
+
 <?php
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $txn_id=$_POST['text'];
