@@ -22,8 +22,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PrimeShip</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="css/bsns_home.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
@@ -64,6 +65,20 @@
     </div>
 </body>
 </html>
+
+<script>
+  $('add_product').submit(function(){
+    let Web3 = require('web3');
+
+    let web3js = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
+
+    let contract = new web3js.eth.Contract(abi, address);
+    var pname = document.getElementById('pname');
+    contract.methods.newItem("1").call().then(function(ans){
+            $('res').html(ans);
+    });
+  });
+</script>
 
 <?php
     $conn = connect();
