@@ -73,4 +73,37 @@
       })();
     </script>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../Code/node_modules/web3/dist/web3.min.js"></script>
+<script src="../Code/app.js"></script>
+<script>
+  $(document).ready(function(event) {
+    console.log("3");
+      web3 = new Web3(new Web3.providers.HttpProvider('HTTP://127.0.0.1:7545'));
+
+        // Set the Contract
+    var contract = new web3.eth.Contract(contractAbi, contractAddress);
+    var prod_id = "<?php echo $_GET['prod_id'];?>";
+    var txn_id = "<?php echo $_GET['txn_id'];?>";
+    var txn_date = "<?php echo $_GET['txn_date'];?>";
+    var sent_to = "<?php echo $_GET['sent_to'];?>";
+    var loc = "<?php echo $_GET['loc'];?>";
+    var mrp = "<?php echo $_GET['mrp'];?>";
+    web3.eth.getAccounts().then(async function(accounts) {
+      console.log("1");
+          var receipt = await contract.methods.addDetails(prod_id, txn_id, txn_date, sent_to, loc, mrp).send({ from: accounts[0], gas: 1000000 })
+          .then(receipt => {
+            console.log("2");
+             //var msg="<h5 style='color: #53D769'><b>Item Added Successfully</b></h5><p>Product ID: "+receipt.events.Added.returnValues[0]+"</p>";
+              //qr.value = receipt.events.Added.returnValues[0];
+              //$bottom="<p style='color: #FECB2E'> You may print the QR Code if required </p>"
+             //document.getElementById('result').innerHTML = "Product Added";
+          });
+          console.log(receipt);
+        });
+
+  });
+      
+</script>
+
 

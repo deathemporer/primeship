@@ -53,33 +53,34 @@
     <div id="wrap">
         <table style="margin-top: 10px;">
             <form method="post" id="prod_form">
-                <tr>
-                    <td id="td1"><label for="brand" id="lab_brand">Brand:</label></td>
-                    <td id="td1"><input type="text" name="brand" id="brand" placeholder="Brand" required readonly></td>
-                </tr>
-                <tr>
-                    <td id="td1"><label for="prod" id="lab_prod">Product:</label></td>
-                    <td id="td1"><input type="text" name="prod" id="prod" placeholder="Product" required readonly></td>
-                </tr>
-                <tr>
-                    <td id="td1"><label for="mrp" id="lab_mrp">MRP:</label></td>
-                    <td id="td1"><input type="text" name="mrp" id="mrp" placeholder="MRP" required readonly></td>
-                </tr>
-                <tr>
-                    <td id="td1"><label for="date" id="lab_date">Manufacturing Date:</label></td>
-                    <td id="td1"><input type="text" name="date" id="date" placeholder="Date" required readonly></td>
-                </tr>
-                <tr>
-                    <td id="td1"><label for="loc" id="lab_loc">Manufacturing Location:</label></td>
-                    <td id="td1"><input type="text" name="loc" id="loc" placeholder="Location" required readonly></td>
-                </tr>
-                <tr>
-                    <td id="td1"><label for="sent" id="lab_sent">Store:</label></td>
-                    <td id="td1"><input type="text" name="sent" id="sent" placeholder="Store" required readonly></td>
-                </tr>
+                
             </form>
         </table>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../Code/node_modules/web3/dist/web3.min.js"></script>
+    <script src="../Code/app.js"></script>
+    <script>
+        $(document).ready(function(event) {
+            var txn_id = "<?php echo $_GET['txn_id'];?>";
+            web3 = new Web3(new Web3.providers.HttpProvider('HTTP://127.0.0.1:7545'));
+            
+            var contract = new web3.eth.Contract(contractAbi, contractAddress);
+
+        
+            //event.preventDefault(); // to prevent page reload when form is submitted
+            console.log(txn_id)
+            //$("#database").text(greeting);
+
+            contract.methods.getItems(txn_id).call(function(err, result) {
+              console.log(err, result);
+              //document.getElementById('prod_form').innerHTML = result;
+              document.getElementById('wrap').innerHTML = result;
+            });
+
+        });
+
+    </script>
 
 </body>
 </html>

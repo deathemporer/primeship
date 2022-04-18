@@ -26,11 +26,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PrimeShip</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="css/bsns_home.css">
+    <link rel="stylesheet" href="css/bsns_prod_added.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-    <div id="navbar">
+	<div id="navbar">
         <nav class="navbar navbar-expand-lg navbar-dark shadow-5-strong">
             <a class="navbar-brand" href="bsns_home.php" style="width: 150px;"><img src="images/logo 1.png" alt="logo"></a>
             
@@ -57,60 +57,45 @@
             </div>
         </nav>
     </div>
-    <div id="wrap">
-        <p>Add new product to the database.</p>
-        <form action="" method="post" id="add_product">
-            <input type="text" name="pname" placeholder="Product Name" id="pname"><br>
-            <input type="submit" name="Submit" id="sub" style="width: 250px;  background: #00ab66; color: white; text-align: center; cursor: pointer;">
+	 <div id="wrap_bus">
+    <p style="height: fit-content; margin-top: 10px; text-align: center; color: #00ab66; font-weight: bold;"> Product Added Successfully!</p>
+        <form method="post" id="login" style="margin-top: 0;">
+            <label for="name">Name:</label>
+            <input type="text" name="name" id="name" placeholder="<?php echo $_GET['name']?>" readonly><br>
+            <label for="type" id="lab_type">Brand:</label>
+            <input type="text" name="type" id="type" placeholder="<?php echo $_GET['bname']?>" readonly><br>
         </form>
-    </p>
+        <a style="position: absolute; color: white; text-decoration: none; margin-top: 230px;" href="bsns_home.php" id="done"><button style=" width: 250px;  margin-left: 100px; margin-top: 20px; height: 40px; border: none; background: #00ab66; color: white; text-align: center; cursor: pointer; border-radius: 5px;">Done</button></a>
     </div>
 </body>
 </html>
 
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../Code/node_modules/web3/dist/web3.min.js"></script>
+<script src="../Code/app.js"></script>
+<script>
+	$(document).ready(function(event) {
+	    web3 = new Web3(new Web3.providers.HttpProvider('HTTP://127.0.0.1:7545'));
 
-<?php
-    $conn = connect();
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $name = $_POST['pname'];
-        $brandId = $_SESSION['user_id'];
-        //$email = $_SESSION['email'];
-        // Check for Some Unique Constraints
-            $query = mysqli_query($conn, "SELECT name FROM product WHERE name='$name' and bsns_id='$brandId'");
-            if(mysqli_num_rows($query) > 0){
-                $row = mysqli_fetch_assoc($query);
-                if($name == $row['name']){
-                    ?> <script>
-                    alert("This product already exists.");
-                    </script> <?php
-                }
-            }
+	      // Set the Contract
+	    var contract = new web3.eth.Contract(contractAbi, contractAddress);
+		var prod_id = "<?php echo $_GET['pid'];?>";
+		var bname = "<?php echo $_GET['bname'];?>";
+		var pname = "<?php echo $_GET['name'];?>";
+		web3.eth.getAccounts().then(async function(accounts) {
+			console.log("1");
+          var receipt = await contract.methods.newItem(pname, prod_id, bname).send({ from: accounts[0], gas: 1000000 })
+          .then(receipt => {
+          	console.log("2");
+             //var msg="<h5 style='color: #53D769'><b>Item Added Successfully</b></h5><p>Product ID: "+receipt.events.Added.returnValues[0]+"</p>";
+              //qr.value = receipt.events.Added.returnValues[0];
+              //$bottom="<p style='color: #FECB2E'> You may print the QR Code if required </p>"
+             //document.getElementById('result').innerHTML = "Product Added";
+          });
+          //console.log(receipt);
+        });
 
-             $sql = "SELECT name from business where bsns_id='$brandId'";
-             $query = mysqli_query($conn, $sql);
-             $row = mysqli_fetch_assoc($query);
-             $bname = $row['name'];
-
-            // Insert Data
-            $sql = "INSERT INTO product(name, bsns_id)
-                    VALUES ('$name', '$brandId')";
-            $query = mysqli_query($conn, $sql);
-
-
-            if($query){
-            	?><script>
-                alert("Product added");
-                </script><?php
-            }
-
-            $sql = "SELECT prod_id from product where bsns_id='$brandId' and name='$name'";
-            $query = mysqli_query($conn, $sql);
-            $row = mysqli_fetch_assoc($query);
-            $pid = $row['prod_id'];
-
-           header("location:bsns_prod_added.php?name=$name&pid=$pid&bname=$bname");
-
-        
-    }
-?>
+	});
+	    
+</script>

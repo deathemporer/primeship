@@ -107,7 +107,7 @@
                   </script>
                 <?php
               }
-              header("location:bsns_success.php?txn_id=$txn_id");
+              header("location:bsns_success.php?prod_id=$pid&txn_date=$date&txn_id=$txn_id&sent_to=$sent&loc=$loc&mrp=$mrp");
             }
     }
 ?>

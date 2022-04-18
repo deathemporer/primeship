@@ -29,78 +29,50 @@ nav img{
     height: 32px;
 }
 
-#wrap{
+#wrap_cust, #wrap_bus{
     background: rgba(255, 255, 255, 0.71);
-    width: 1100px;
-    min-height: 420px;
-    height: fit-content;
-    overflow: auto;
-    margin-left: 220px;
-    margin-top: 100px;
+    width: 500px;
+    height: 400px;
+    margin-left: 510px;
+    margin-top: 120px;
     position: absolute;
     border-radius: 10px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.24);
     padding: 30px;
-    text-align: center;
+    padding-top: 10px;
 }
 
-#wrap p{
-    font-size: 20px;
-    height: fit-content;
-    position: relative;
-    color: rgba(0,0,0,0.7);
-    margin-top: 20px;
-}
 
-#sno, #sub{
+#email, #name, #type, #sub{
     margin: 10px;
     width: 450px;
     height: 40px;
     padding-left: 10px;
     border: none;
     background: rgba(203, 243, 254, 0.82);
-    color: black;
     border-radius: 10px;
     box-shadow: 0px 3px 15px rgba(0,0,0,0.24);
     font-size: large;
 }
 
-#check_product{
+label{
     height: fit-content;
-    overflow: auto;
-}
-
-#prod {
+    margin-left: 10px;
     margin-top: 10px;
-    font-family: Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-    
-    overflow: auto;
-}
-  
-#prod td, #prod th {
-    border: 1px solid #ddd;
-    padding: 8px;
-
-}
-  
-#t1{
-    width: 20%;
 }
 
-#t2,#t3{
-    width: 40%;
+#login{
+    justify-content: left;
+    margin-top: 0;
+    margin-left: -30px;
+    padding: 20px;
+    position: absolute;
 }
 
-#prod tr:nth-child(even){background-color: #f2f2f2;}
-  
-#prod tr:hover {background-color: #ddd;}
-  
-#prod th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: rgba(203, 243, 254, 0.82);
-    color: black;
+#wrap_bus p{
+    font-size: 20px;
+    height: 30px;
+    position: relative;
+    color: rgba(0,0,0,0.7);
+    margin-top: 20px;
 }

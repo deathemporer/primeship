@@ -181,7 +181,7 @@
         <form action="" method="post" id="check_product">
             <input type="text" placeholder="Product Name..." id="sno" name="sno" value = "<?php echo (isset($_GET['prod_name']))?$_GET['prod_name']:'';?>">
             <input type="submit" name="Submit" id="sub" style="width: 250px;  background: #00ab66; color: white; text-align: center; cursor: pointer;">
-            <table id="prod" name="prod">
+            <table id="prod" name="prod" style="height: 300px; overflow-y: auto;">
               <th id="t1">Product ID</th>
               <th id="t2">Name</th>
               <th id="t3">Brand</th>
